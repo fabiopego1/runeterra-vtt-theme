@@ -1,0 +1,23 @@
+{
+    "id": "runeterra-theme",
+    "title": "Runeterra Theme",
+    "description": "Aplica a identidade visual da Forja de Campeões · Runeterra a toda a interface do Foundry VTT: superfícies tinta, dourado hextec, tipografia Marcellus/Barlow/IBM Plex Mono, cantos chanfrados. Apenas apresentação — nenhuma regra ou dado é alterado.",
+    "authors": [
+        {
+            "name": "Fabio Pego"
+        }
+    ],
+    "version": "0.1.0",
+    "compatibility": {
+        "minimum": "12",
+        "verified": "14"
+    },
+    "styles": [
+        "styles/runeterra-theme.css"
+    ],
+    "flags": {
+        "runeterraTheme": {
+            "designSource": "https://fabiopego1.github.io/Runeterra/"
+        }
+    }
+}

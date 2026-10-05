@@ -1,0 +1,645 @@
+/* ============================================================
+   Runeterra Theme — Foundry VTT global interface theme.
+   Design language extracted from the Forja de Campeões · Runeterra
+   website (fabiopego1.github.io/Runeterra): ink surfaces, hextech
+   gold used sparingly for structure/primary actions, zone colors as
+   the only color meanings, Marcellus display + Barlow Semi Condensed
+   body + IBM Plex Mono labels, chamfered corners, hairline dividers,
+   radius 0. Presentation only — no rules, data or behavior change.
+   ============================================================ */
+
+/* ---------- Fonts (SIL OFL, bundled) ---------- */
+@font-face { font-family: 'Marcellus'; src: url('Marcellus-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow Semi Condensed'; src: url('BarlowSemiCondensed-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow Semi Condensed'; src: url('BarlowSemiCondensed-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Barlow Semi Condensed'; src: url('BarlowSemiCondensed-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow Semi Condensed'; src: url('BarlowSemiCondensed-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('IBMPlexMono-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('IBMPlexMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+
+/* ---------- Design tokens ---------- */
+:root {
+  --rt-ink-0: #0c0d10;
+  --rt-ink-1: #121419;
+  --rt-ink-2: #191c22;
+  --rt-ink-3: #22262d;
+  --rt-line: #2a2e35;
+  --rt-line-2: #3a3f47;
+  --rt-text: #e8dfca;
+  --rt-text-2: #a8a08d;
+  --rt-text-3: #8f8a7e;
+  --rt-gold: #c8a45e;
+  --rt-gold-hi: #ecd49c;
+  --rt-gold-lo: #6e5a33;
+  --rt-hex: #45b8c4;
+  --rt-zone-g: #79b06a;
+  --rt-zone-y: #d9ab45;
+  --rt-zone-r: #c4584c;
+  --rt-chamfer: 14px;
+}
+
+/* ---------- Variable remaps (same scopes Foundry uses, loaded after core) ----------
+   Foundry V14 defines its theme variables on `body` and refines them in
+   `body.game .app` / `body.theme-light` / `body.theme-dark`. We redefine the
+   semantic layer so BOTH core themes resolve to the Runeterra palette. */
+body,
+body.game .app,
+body.game .themed,
+body.game .themed.theme-light,
+body.game .themed.theme-dark,
+body.theme-light,
+body.theme-dark {
+  /* primitives */
+  --color-warm-1: var(--rt-gold);
+  --color-warm-2: var(--rt-zone-r);
+  --color-warm-3: var(--rt-gold-lo);
+  --color-dark-1: var(--rt-ink-0);
+  --color-dark-2: var(--rt-ink-1);
+  --color-dark-3: var(--rt-ink-2);
+  --color-dark-4: var(--rt-ink-3);
+  --color-dark-5: #2e3340;
+  --color-dark-6: #3a3f47;
+  --color-light-1: var(--rt-text);
+  --color-light-2: var(--rt-text-2);
+  --color-light-3: #c9bfa4;
+  --color-light-4: var(--rt-text-3);
+  --color-light-5: #6d685d;
+  --color-light-6: #55514a;
+  --color-cool-3: #303540;
+  --color-cool-4: #1c2028;
+  --color-cool-5: var(--rt-ink-0);
+  --color-cool-5-25: rgba(12, 13, 16, .25);
+  --color-cool-5-50: rgba(12, 13, 16, .5);
+  --color-cool-5-75: rgba(12, 13, 16, .75);
+  --color-cool-5-90: rgba(12, 13, 16, .9);
+
+  /* semantic text */
+  --color-text-primary: var(--rt-text);
+  --color-text-secondary: var(--rt-text-2);
+  --color-text-emphatic: var(--rt-text);
+  --color-text-accent: var(--rt-gold);
+  --color-text-light-0: #f4efe2;
+  --color-text-light-1: var(--rt-text);
+  --color-text-light-2: var(--rt-text-2);
+  --color-text-light-3: var(--rt-text-3);
+  --color-text-light-heading: var(--rt-text);
+  --color-text-light-primary: var(--rt-text);
+  --color-text-light-secondary: var(--rt-text-2);
+  --color-text-light-tertiary: var(--rt-text-3);
+  --color-text-light-highlight: var(--rt-gold-hi);
+  --color-text-light-inactive: var(--rt-text-3);
+  --color-text-dark-1: var(--rt-ink-0);
+  --color-text-dark-2: var(--rt-ink-1);
+  --color-text-dark-3: var(--rt-ink-2);
+  --color-text-dark-primary: var(--rt-ink-0);
+  --color-text-dark-secondary: var(--rt-ink-1);
+  --color-text-dark-header: var(--rt-ink-2);
+  --color-text-dark-inactive: var(--rt-text-3);
+  --color-text-hyperlink: var(--rt-hex);
+  --color-text-inactive: var(--rt-text-3);
+  --color-text-selection: var(--rt-text);
+  --color-text-selection-bg: var(--rt-gold-lo);
+
+  /* semantic borders & surfaces */
+  --color-border: var(--rt-line);
+  --color-border-dark: var(--rt-ink-0);
+  --color-border-dark-1: var(--rt-ink-0);
+  --color-border-dark-2: var(--rt-ink-1);
+  --color-border-dark-3: var(--rt-ink-2);
+  --color-border-dark-primary: var(--rt-gold-lo);
+  --color-border-dark-secondary: var(--rt-line);
+  --color-border-dark-tertiary: var(--rt-line);
+  --color-border-light-1: var(--rt-line-2);
+  --color-border-light-2: var(--rt-line);
+  --color-border-light-highlight: var(--rt-gold-hi);
+  --color-border-light-primary: var(--rt-gold-lo);
+  --color-border-light-secondary: var(--rt-line-2);
+  --color-border-light-tertiary: var(--rt-line);
+  --color-border-highlight: var(--rt-gold);
+  --color-bg: var(--rt-ink-1);
+  --color-header-background: var(--rt-ink-2);
+  --color-data-background: var(--rt-ink-0);
+  --color-data-border: var(--rt-line);
+  --color-fieldset-border: var(--rt-line);
+  --color-form-label: var(--rt-text-3);
+  --color-form-hint: var(--rt-text-3);
+  --color-code-bg: var(--rt-ink-0);
+  --color-code-border: var(--rt-line);
+  --color-select-option-bg: var(--rt-ink-2);
+  --color-scrollbar: var(--rt-gold-lo);
+  --color-scrollbar-track: transparent;
+  --color-shadow-dark: rgba(0, 0, 0, .5);
+  --color-shadow-primary: rgba(0, 0, 0, .5);
+  --color-shadow-highlight: rgba(0, 0, 0, .35);
+  --color-level-info: var(--rt-hex);
+  --color-level-info-bg: rgba(18, 20, 25, .92);
+  --color-level-info-border: var(--rt-hex);
+  --color-level-success: var(--rt-zone-g);
+  --color-level-success-bg: rgba(18, 20, 25, .92);
+  --color-level-success-border: var(--rt-zone-g);
+  --color-level-warning: var(--rt-zone-y);
+  --color-level-warning-bg: rgba(18, 20, 25, .92);
+  --color-level-warning-border: var(--rt-zone-y);
+  --color-level-error: var(--rt-zone-r);
+  --color-level-error-bg: rgba(18, 20, 25, .92);
+  --color-level-error-border: var(--rt-zone-r);
+  --color-ownership-none: var(--rt-text-3);
+  --color-ownership-observer: var(--rt-gold);
+  --color-ownership-owner: var(--rt-zone-g);
+
+  /* typography */
+  --font-primary: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --font-body: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --font-sans: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --font-serif: 'Marcellus', Georgia, serif;
+  --font-monospace: 'IBM Plex Mono', ui-monospace, monospace;
+
+  color-scheme: dark;
+}
+
+/* ---------- Application windows ---------- */
+body.game .window-app {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-gold-lo);
+  border-radius: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+}
+body.game .window-app .window-header {
+  background: var(--rt-ink-2);
+  border-bottom: 1px solid var(--rt-gold-lo);
+  color: var(--rt-text-2);
+  flex: none;
+}
+body.game .window-app .window-header .window-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .74rem;
+  letter-spacing: .08em;
+  color: var(--rt-text-2);
+}
+body.game .window-app .window-header .header-button,
+body.game .window-app .window-header .header-control {
+  color: var(--rt-text-3);
+}
+body.game .window-app .window-header .header-button:hover,
+body.game .window-app .window-header .header-control:hover {
+  color: var(--rt-gold-hi);
+  text-shadow: none;
+}
+body.game .window-app .window-content,
+body.game .window-app .window-content .themed,
+body.game .window-app.themed .window-content {
+  background: var(--rt-ink-1);
+  background-image: none;
+  color: var(--rt-text);
+}
+/* Kill the parchment paper texture in the light theme. */
+body.game .window-app.themed.theme-light .window-content,
+body.game .themed.theme-light .window-content,
+body.game .window-app .themed.theme-light {
+  background: var(--rt-ink-1);
+  background-image: none;
+}
+body.game .window-app .window-content > form,
+body.game .window-app .window-content > .form-group,
+body.game .window-app .window-content section {
+  color: var(--rt-text);
+}
+
+/* Section headings inside apps: mono eyebrows. */
+body.game .window-content h1, body.game .window-content h2 {
+  font-family: 'Marcellus', Georgia, serif;
+  color: var(--rt-gold-hi);
+  font-weight: 400;
+}
+body.game .window-content h3, body.game .window-content h4, body.game .window-content h5 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rt-gold);
+  border-bottom: 1px solid var(--rt-line);
+  padding-bottom: 3px;
+}
+
+/* ---------- Buttons: quiet by default, gold on hover, one primary look ---------- */
+body.game button,
+body.game .dialog-buttons button,
+body.game button.ui-control {
+  background: transparent;
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text-2);
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+body.game button:hover,
+body.game .dialog-buttons button:hover,
+body.game button.ui-control:hover {
+  border-color: var(--rt-gold);
+  color: var(--rt-gold-hi);
+  background: var(--rt-ink-2);
+  box-shadow: none;
+}
+body.game button:focus-visible,
+body.game .dialog-buttons button:focus-visible {
+  outline: 1px solid var(--rt-gold);
+  outline-offset: 1px;
+  box-shadow: none;
+}
+body.game button.default,
+body.game .dialog-buttons button.default,
+body.game button.primary {
+  background: var(--rt-gold);
+  border-color: var(--rt-gold);
+  color: #17130b;
+  font-weight: 600;
+}
+body.game button.default:hover,
+body.game .dialog-buttons button.default:hover,
+body.game button.primary:hover {
+  background: var(--rt-gold-hi);
+  border-color: var(--rt-gold-hi);
+  color: #17130b;
+}
+body.game button:disabled { opacity: .45; cursor: not-allowed; }
+
+/* ---------- Forms ---------- */
+body.game input[type="text"],
+body.game input[type="number"],
+body.game input[type="password"],
+body.game input[type="date"],
+body.game input[type="time"],
+body.game input[type="search"] {
+  background: var(--rt-ink-0);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text);
+  font-family: inherit;
+}
+body.game input:hover { border-color: var(--rt-gold-lo); }
+body.game input:focus { border-color: var(--rt-gold); outline: none; box-shadow: 0 0 0 1px var(--rt-gold-lo); }
+body.game input::placeholder { color: var(--rt-text-3); }
+body.game textarea {
+  background: var(--rt-ink-0);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text);
+  font-family: inherit;
+}
+body.game textarea:focus { border-color: var(--rt-gold); outline: none; }
+body.game select {
+  background: var(--rt-ink-2);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text);
+  font-family: inherit;
+}
+body.game select:focus { border-color: var(--rt-gold); outline: none; }
+body.game select option { background: var(--rt-ink-2); color: var(--rt-text); }
+body.game select optgroup { background: var(--rt-ink-2); color: var(--rt-gold); }
+body.game input[type="checkbox"], body.game input[type="radio"] { accent-color: var(--rt-gold); }
+body.game input[type="range"] { accent-color: var(--rt-gold); }
+body.game fieldset { border: 1px solid var(--rt-line); border-radius: 0; }
+body.game .form-group > label { color: var(--rt-text-2); }
+body.game .form-group .hint { color: var(--rt-text-3); }
+body.game .form-group label, body.game .form-group .form-fields { color: var(--rt-text); }
+body.game .sheet .form-group label { font-weight: 500; }
+
+/* ---------- Sidebar ---------- */
+body.game #sidebar {
+  background: var(--rt-ink-1);
+  border-left: 1px solid var(--rt-gold-lo);
+}
+body.game #sidebar-tabs {
+  background: var(--rt-ink-0);
+  border-bottom: 1px solid var(--rt-gold-lo);
+  box-shadow: none;
+}
+body.game #sidebar-tabs > .item {
+  color: var(--rt-text-3);
+  border-radius: 0;
+  text-shadow: none;
+}
+body.game #sidebar-tabs > .item:hover { color: var(--rt-text); }
+body.game #sidebar-tabs > .item.active {
+  color: var(--rt-gold-hi);
+  background: var(--rt-ink-2);
+  box-shadow: inset 0 -2px 0 var(--rt-gold);
+  text-shadow: none;
+}
+body.game .sidebar-tab .directory-header {
+  border-bottom: 1px solid var(--rt-line);
+  background: transparent;
+}
+body.game .sidebar-tab .directory-header .window-title,
+body.game .sidebar-tab .directory-header h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rt-gold);
+  text-shadow: none;
+}
+body.game .sidebar-tab .directory-list .directory-item { border-color: var(--rt-line); }
+body.game .sidebar-tab .directory-list .document-name,
+body.game .sidebar-tab .directory-list a {
+  color: var(--rt-text);
+  text-shadow: none;
+}
+body.game .sidebar-tab .directory-list .document-name:hover,
+body.game .sidebar-tab .directory-list a:hover { color: var(--rt-gold-hi); }
+body.game .sidebar-tab .directory-list .folder > .folder-header {
+  background: var(--rt-ink-2);
+  color: var(--rt-text-2);
+  border-top: 1px solid var(--rt-line);
+  text-shadow: none;
+}
+body.game .sidebar-tab .directory-list .folder > .folder-header a {
+  color: var(--rt-text-2);
+  text-shadow: none;
+}
+body.game .sidebar-tab .directory-list .folder.collapsed > .folder-header { background: var(--rt-ink-2); }
+body.game .sidebar .directory .actions,
+body.game .sidebar .directory .item-control { color: var(--rt-text-3); }
+body.game .sidebar .directory .item-control:hover { color: var(--rt-gold-hi); }
+body.game .sidebar-tab input[type="search"] { background: var(--rt-ink-0); }
+
+/* ---------- Chat ---------- */
+body.game #chat { background: var(--rt-ink-1); }
+body.game #chat-controls { border-top: 1px solid var(--rt-line); background: var(--rt-ink-0); }
+body.game .chat-controls .control-buttons button { color: var(--rt-text-3); }
+body.game .chat-controls .control-buttons button.active { color: var(--rt-gold); }
+body.game #chat-form textarea {
+  background: var(--rt-ink-0);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text);
+}
+body.game .chat-message {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line);
+  box-shadow: inset 0 0 0 1px var(--rt-gold-lo);
+  border-radius: 0;
+  color: var(--rt-text);
+  backdrop-filter: none;
+}
+body.game .chat-message > .message-header { color: var(--rt-text-3); border-bottom: 1px dotted var(--rt-line); }
+body.game .chat-message .message-sender { color: var(--rt-text-2); }
+body.game .chat-message .message-metadata { color: var(--rt-text-3); }
+body.game .chat-message .message-content { color: var(--rt-text); }
+body.game .chat-message .flavor-text { color: var(--rt-text-2); }
+body.game .chat-message .roll-formula,
+body.game .chat-message .dice-formula,
+body.game .chat-message .part-formula {
+  background: var(--rt-ink-0);
+  border: 1px solid var(--rt-line);
+  border-radius: 0;
+  color: var(--rt-text-2);
+  box-shadow: none;
+  text-shadow: none;
+}
+body.game .chat-message .dice-total,
+body.game .chat-message .part-total {
+  background: var(--rt-ink-0);
+  border: 1px solid var(--rt-gold-lo);
+  border-radius: 0;
+  color: var(--rt-gold-hi);
+  box-shadow: none;
+  text-shadow: none;
+}
+body.game .chat-message.whisper { background: var(--rt-ink-2); box-shadow: inset 0 0 0 1px var(--rt-text-3); }
+body.game .chat-message.blind { background: var(--rt-ink-2); box-shadow: inset 0 0 0 1px var(--rt-zone-r); }
+body.game .chat-message em { color: var(--rt-text-2); }
+
+/* ---------- Notifications, tooltips, context menus ---------- */
+body.game .notification {
+  background: var(--rt-ink-2);
+  border: 1px solid var(--rt-gold-lo);
+  border-left-width: 3px;
+  border-radius: 0;
+  color: var(--rt-text);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .5);
+  text-shadow: none;
+}
+body.game .notification.error { border-left-color: var(--rt-zone-r); }
+body.game .notification.warning { border-left-color: var(--rt-zone-y); }
+body.game .notification.info { border-left-color: var(--rt-hex); }
+body.game .notification.success { border-left-color: var(--rt-zone-g); }
+body.game #tooltip, body.game .tooltip, body.game .hover-tip .tooltip {
+  background: var(--rt-ink-0);
+  border: 1px solid var(--rt-gold-lo);
+  border-radius: 0;
+  color: var(--rt-text);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .55);
+  font-family: 'Barlow Semi Condensed', sans-serif;
+}
+body.game #tooltip .tooltip-header, body.game .tooltip .tooltip-header {
+  background: var(--rt-ink-2);
+  border-bottom: 1px solid var(--rt-gold-lo);
+  color: var(--rt-gold-hi);
+  font-family: 'Marcellus', Georgia, serif;
+}
+body.game #tooltip .tooltip-part { border-top: 1px dotted var(--rt-line); }
+body.game #tooltip .tip-warning { color: var(--rt-zone-y); }
+body.game .context-menu, body.game .menu {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-gold-lo);
+  border-radius: 0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .55);
+  color: var(--rt-text);
+}
+body.game .context-menu li .context-item,
+body.game .menu li .context-item {
+  color: var(--rt-text-2);
+  border-radius: 0;
+}
+body.game .context-menu li .context-item:hover,
+body.game .menu li .context-item:hover {
+  background: var(--rt-ink-3);
+  color: var(--rt-gold-hi);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+/* ---------- Scene navigation ---------- */
+body.game #navigation {
+  background: transparent;
+}
+body.game #nav-toggle { color: var(--rt-text-2); }
+body.game #scene-list .scene {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text-2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+  text-shadow: none;
+}
+body.game #scene-list .scene:hover { border-color: var(--rt-gold); color: var(--rt-text); }
+body.game #scene-list .scene.view {
+  border-color: var(--rt-gold);
+  color: var(--rt-gold-hi);
+  box-shadow: inset 0 -2px 0 var(--rt-gold), 0 4px 14px rgba(0, 0, 0, .45);
+}
+body.game #scene-list .scene.gm { background: var(--rt-ink-2); }
+
+/* ---------- Left controls (toolbar) ---------- */
+body.game #controls {
+  background: transparent;
+}
+body.game #controls .control-icon,
+body.game #controls .control-tool,
+body.game #controls .scene-control {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text-3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+}
+body.game #controls .control-icon:hover,
+body.game #controls .control-tool:hover,
+body.game #controls .scene-control:hover {
+  color: var(--rt-text);
+  border-color: var(--rt-gold-lo);
+  background: var(--rt-ink-2);
+}
+body.game #controls .control-icon.active,
+body.game #controls .control-tool.active,
+body.game #controls .scene-control.active {
+  color: var(--rt-gold-hi);
+  border-color: var(--rt-gold);
+  background: var(--rt-ink-2);
+}
+body.game #controls .control-icon .bar { background: var(--rt-gold); }
+
+/* ---------- Hotbar & players list ---------- */
+body.game #hotbar { background: transparent; }
+body.game #hotbar .bar-toggle {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text-3);
+}
+body.game #hotbar .macro {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+}
+body.game #hotbar .macro:hover { border-color: var(--rt-gold); box-shadow: 0 0 0 1px var(--rt-gold-lo); }
+body.game #hotbar .macro .macro-key {
+  color: var(--rt-text-3);
+  font-family: 'IBM Plex Mono', monospace;
+  text-shadow: none;
+}
+body.game #players {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+  color: var(--rt-text-2);
+}
+body.game #players .players-list .player-name { text-shadow: none; }
+
+/* ---------- Combat tracker ---------- */
+body.game #combat {
+  background: var(--rt-ink-1);
+  border-color: var(--rt-line);
+}
+body.game #combat #combat-tracker-header {
+  background: var(--rt-ink-2);
+  border-bottom: 1px solid var(--rt-gold-lo);
+}
+body.game #combat #combat-round .encounters, body.game #combat h3 {
+  color: var(--rt-gold);
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .1em;
+  text-shadow: none;
+}
+body.game #combat #combat-tracker-list .combatant {
+  color: var(--rt-text);
+  border-bottom: 1px solid var(--rt-line);
+}
+body.game #combat #combat-tracker-list .combatant:hover { background: var(--rt-ink-2); }
+body.game #combat #combat-tracker-list .combatant.active {
+  background: var(--rt-ink-2);
+  box-shadow: inset 3px 0 0 var(--rt-gold);
+}
+body.game #combat #combat-tracker-list .combatant .token-name,
+body.game #combat #combat-tracker-list .combatant .token-initiative { text-shadow: none; color: var(--rt-text); }
+body.game #combat .combatant .combatant-control { color: var(--rt-text-3); }
+body.game #combat .combatant .combatant-control.active { color: var(--rt-gold); }
+
+/* ---------- Token HUD ---------- */
+body.game .hud .control-icon {
+  background: var(--rt-ink-1);
+  border: 1px solid var(--rt-line-2);
+  border-radius: 0;
+  color: var(--rt-text-2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .5);
+}
+body.game .hud .control-icon:hover { border-color: var(--rt-gold); color: var(--rt-gold-hi); }
+body.game .hud .control-icon.active { border-color: var(--rt-gold); color: var(--rt-gold-hi); background: var(--rt-ink-2); }
+
+/* ---------- Journal & ProseMirror editor ---------- */
+body.game .journal-sheet .window-content,
+body.game .journal-entry,
+body.game .journal-entry-page,
+body.game .journal-entry-page .page-content {
+  background: var(--rt-ink-1);
+  color: var(--rt-text);
+  background-image: none;
+}
+body.game .journal-sheet .journal-header input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px dotted var(--rt-line-2);
+  color: var(--rt-gold-hi);
+  font-family: 'Marcellus', Georgia, serif;
+}
+body.game .prose-mirror, body.game prose-mirror {
+  background: var(--rt-ink-0);
+  color: var(--rt-text);
+}
+body.game .prose-mirror menu, body.game prose-mirror menu {
+  background: var(--rt-ink-2);
+  border-bottom: 1px solid var(--rt-line);
+}
+body.game .prose-mirror .editor-content, body.game prose-mirror .editor-content {
+  color: var(--rt-text);
+  font-family: 'Barlow Semi Condensed', sans-serif;
+}
+body.game .editor-content h1, body.game .editor-content h2 { font-family: 'Marcellus', Georgia, serif; color: var(--rt-gold-hi); }
+body.game .editor-content h3, body.game .editor-content h4 { font-family: 'IBM Plex Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--rt-gold); font-size: .8rem; }
+body.game .editor-content a { color: var(--rt-hex); }
+body.game .editor-content blockquote { border-left: 3px solid var(--rt-gold-lo); color: var(--rt-text-2); }
+body.game .editor-content hr { border-color: var(--rt-line); }
+
+/* ---------- Cards, hand, tables, playlists, etc.: shared panel look ---------- */
+body.game .card-draw, body.game .card-list, body.game .playlist, body.game .sound,
+body.game table { color: var(--rt-text); }
+body.game table { border-color: var(--rt-line); }
+body.game table tr:nth-child(even) { background: var(--rt-ink-2); }
+body.game table td, body.game table th { border-color: var(--rt-line); }
+
+/* ---------- Scrollbars ---------- */
+body.game * { scrollbar-width: thin; scrollbar-color: var(--rt-gold-lo) transparent; }
+body.game ::-webkit-scrollbar { width: 8px; height: 8px; }
+body.game ::-webkit-scrollbar-track { background: transparent; }
+body.game ::-webkit-scrollbar-thumb {
+  background: var(--rt-gold-lo);
+  border: none;
+  border-radius: 0;
+}
+body.game ::-webkit-scrollbar-thumb:hover { background: var(--rt-gold); }
+body.game ::-webkit-scrollbar-corner { background: transparent; }
+
+/* ---------- Selection & focus ---------- */
+body.game ::selection { background: var(--rt-gold-lo); color: var(--rt-text); }
+body.game :focus-visible { outline: 1px solid var(--rt-gold); outline-offset: 1px; }
+
+/* ---------- Progress bars (loading, xp) ---------- */
+body.game .progress-bar { background: var(--rt-ink-0); border: 1px solid var(--rt-line-2); border-radius: 0; }
+body.game .progress-bar .bar { background: var(--rt-gold); }
