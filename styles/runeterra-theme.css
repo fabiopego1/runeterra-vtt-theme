@@ -546,13 +546,17 @@ body.game #hotbar .macro .macro-key {
   text-shadow: none;
 }
 body.game #players {
-  background: var(--rt-ink-1);
-  border: 1px solid var(--rt-line-2);
-  border-radius: 0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
-  color: var(--rt-text-2);
+  /* The outer container must stay transparent: Foundry anchors the inner panel
+     (players list + performance stats) to the bottom, so an opaque background here
+     shows up as a dark box sticking out above the visible panel when expanded. */
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
-body.game #players .players-list .player-name { text-shadow: none; }
+body.game #players .players-list,
+body.game #players > div {
+  border-radius: 0;
+}
 
 /* ---------- Combat tracker ---------- */
 body.game #combat {
