@@ -223,6 +223,8 @@ body.game .window-content h3, body.game .window-content h4, body.game .window-co
 }
 
 /* ---------- Buttons: quiet by default, gold on hover, one primary look ---------- */
+/* NOTE: never set font-family on the broad button selector — V14 icon buttons carry
+   fa-* classes directly, and a winning font-family here turns glyphs into tofu. */
 body.game button,
 body.game .dialog-buttons button,
 body.game button.ui-control {
@@ -230,11 +232,11 @@ body.game button.ui-control {
   border: 1px solid var(--rt-line-2);
   border-radius: 0;
   color: var(--rt-text-2);
-  font-family: 'Barlow Semi Condensed', sans-serif;
   font-weight: 500;
   cursor: pointer;
   transition: color .15s, border-color .15s, background .15s;
 }
+body.game button:not([class*="fa-"]) { font-family: 'Barlow Semi Condensed', sans-serif; }
 body.game button:hover,
 body.game .dialog-buttons button:hover,
 body.game button.ui-control:hover {
@@ -434,7 +436,6 @@ body.game #tooltip, body.game .tooltip, body.game .hover-tip .tooltip {
   border-radius: 0;
   color: var(--rt-text);
   box-shadow: 0 8px 22px rgba(0, 0, 0, .55);
-  font-family: 'Barlow Semi Condensed', sans-serif;
 }
 body.game #tooltip .tooltip-header, body.game .tooltip .tooltip-header {
   background: var(--rt-ink-2);
